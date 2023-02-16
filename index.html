@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Brygada+1918:ital@1&family=GFS+Didot&display=swap"
+		rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Brygada+1918:ital@0;1&family=Newsreader:ital,opsz@0,6..72;1,6..72&display=swap"
+		rel="stylesheet"> -->
+	<link rel="stylesheet" href="..\MathType\mathquill-0.10.1\mathquill.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<script src="..\MathType\mathquill-0.10.1\mathquill.js"></script>
+</head>
+
+<body>
+	<script>
+		function addFontsFromFolder() {
+			// Define the folder name and file extension
+			const folderName = 'Computer-Modern';
+			const fileExt = '.ttf';
+
+			// Get all the font file names in the folder
+			fetch(`/${folderName}/`)
+				.then(response => response.text())
+				.then(html => {
+					const parser = new DOMParser();
+					const doc = parser.parseFromString(html, 'text/html');
+					const fontFiles = Array.from(doc.querySelectorAll(`a[href$="${fileExt}"]`)).map(a => a.getAttribute('href'));
+					// Add @font-face rules for each font file
+					const styleSheet = document.styleSheets[0];
+					fontFiles.forEach(fontFile => {
+						const rule = `@font-face {
+					font-family: "cm";
+					src: url("/${folderName}/${fontFile}") format("truetype");
+					font-weight: normal;
+					font-style: normal;
+				  }`;
+						styleSheet.insertRule(rule, styleSheet.cssRules.length);
+					});
+				});
+		}
+		addFontsFromFolder();
+		var count = 0;
+		function createMathField() {
+			var newMathField = document.createElement('span');
+			newMathField.id = "math-field" + (++count);
+			newMathField.classList.add("latex-mathfield");
+			document.body.appendChild(newMathField);
+
+			var mathField = MathQuill.MathField(document.getElementById(newMathField.id), {
+				spaceBehavesLikeTab: false,
+				autoCommands: 'pi theta sqrt sum int to Delta sigma null infinity lim Re Im linebreak oint binom',
+				autoOperatorNames: 'sin cos tan sec csc cot arcsin arccos arctan arccsc arcsec arccot sinh cosh tanh arcsinh arccosh arctanh log ln cis exp erf',
+				handlers: {
+					enter: function () {
+						createMathField();
+					},
+				}
+			});
+			var latestMathField = $("#math-field" + count);
+			MathQuill.getMathField(latestMathField).focus();
+		}
+		createMathField();
+	</script>
+	<style>
+		* {
+			vertical-align: middle;
+		}
+
+		#math-field {
+			border-color: white;
+		}
+
+		body {
+			text-align: center;
+			transform: scale(3);
+			background-color: #f8f8f8;
+
+		}
+
+		.latex-mathfield {
+			display: block;
+			border: 0;
+			background-color: #f8f8f8;
+			text-align: center;
+		}
+
+		big {
+			font-size: 1.7em !important;
+			font-stretch: 1% !important;
+		}
+
+		html {
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+	</style>
+</body>
+
+</html>
