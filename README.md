@@ -1,0 +1,2 @@
+# MathType
+BETA_SonniMathType
