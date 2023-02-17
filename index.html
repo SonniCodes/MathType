@@ -1,1 +1,34 @@
-<!DOCTYPE html><html><head><link rel=stylesheet href=..\MathType\mathquill-0.10.1\mathquill.css /><script src=https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js></script><script src=..\MathType\mathquill-0.10.1\mathquill.js></script></head><body><script>function addFontsFromFolder(){const folderName='Computer-Modern';const fileExt='.ttf';fetch(`/${folderName}/`).then(response=>response.text()).then(html=>{const parser=new DOMParser();const doc=parser.parseFromString(html,'text/html');const fontFiles=Array.from(doc.querySelectorAll(`a[href$="${fileExt}"]`)).map(a=>a.getAttribute('href'));const styleSheet=document.styleSheets[0];fontFiles.forEach(fontFile=>{const rule=`@font-face{font-family:"cm";src:url("/${folderName}/${fontFile}")format("truetype");font-weight:normal;font-style:normal;}`;styleSheet.insertRule(rule,styleSheet.cssRules.length);});});}addFontsFromFolder();var count=0;function createMathField(){var newMathField=document.createElement('span');newMathField.id="math-field"+(++count);newMathField.classList.add("latex-mathfield");document.body.appendChild(newMathField);var mathField=MathQuill.MathField(document.getElementById(newMathField.id),{spaceBehavesLikeTab:false,autoCommands:'pi theta sqrt sum int to Delta sigma null infinity lim Re Im linebreak oint binom',autoOperatorNames:'sin cos tan sec csc cot arcsin arccos arctan arccsc arcsec arccot sinh cosh tanh arcsinh arccosh arctanh log ln cis exp erf',handlers:{enter:function(){createMathField();},}});var latestMathField=$("#math-field"+count);MathQuill.getMathField(latestMathField).focus();}createMathField();</script><style>*{vertical-align:middle}#math-field{border-color:white}body{text-align:center;transform:scale(3);background-color:#f8f8f8}.latex-mathfield{display:block;border:0;background-color:#f8f8f8;text-align:center}big{font-size:1.7em!important;font-stretch:1%!important}html{min-height:100vh;display:flex;flex-direction:column;justify-content:center}</style></body></html>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../ProjectUncompressed/mathquill-0.10.1/mathquill.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="../ProjectUncompressed/mathquill-0.10.1/mathquill.js"></script>
+    <script src="../ProjectUncompressed/mathquill-0.10.1/undomanager.js"></script>
+</head>
+
+<body>
+
+    <body>
+        <div id="latex-math-field">
+            <div id="placeholder">Begin\ Your\ Typing\ Here...</div>
+        </div>
+
+    </body>
+
+    <script>
+        const MQ = MathQuill.getInterface(2);
+        const mathContentEl = $('#latex-math-field');
+        const mathField = MQ.MathField(mathContentEl[0], {
+            spaceBehavesLikeTab: false,
+            autoCommands: "pi theta sqrt sum int to Delta sigma null infinity lim Re Im linebreak oint binom",
+            autoOperatorNames: "sin cos tan sec csc cot arcsin arccos arctan arccsc arcsec arccot sinh cosh tanh arcsinh arccosh arctanh log ln cis exp erf",
+        });
+        const undoManager = new UndoRedoManager(mathField, mathContentEl);
+
+    </script>
+
+</body>
+
+</html>
