@@ -1,1 +1,18 @@
-<!DOCTYPE html> <html> <head> <link rel="stylesheet" href="../MathType/mathquill-0.10.1/mathquill.css" /> <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> <script src="../MathType/mathquill-0.10.1/mathquill.js"></script> <script src="../MathType/mathquill-0.10.1/CursorControl.js"></script> </head> <body> <math-field id="latex-math-field" class="math-content">Begin\ Typing\ Here</math-field> <script> const MQ = MathQuill.getInterface(2); const mathContentEl = $('#latex-math-field'); const mathField = MQ.MathField(mathContentEl[0], { spaceBehavesLikeTab: false, autoCommands: "pi theta sqrt sum int to Delta sigma null infinity lim Re Im linebreak oint binom", autoOperatorNames: "sin cos tan sec csc cot arcsin arccos arctan arccsc arcsec arccot sinh cosh tanh arcsinh arccosh arctanh log ln cis exp erf", }); </script> </body> </html>
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../MathType/mathquill-0.10.1/mathquill.css" />
+        <link rel="stylesheet" href="../MathType/mathquill-0.10.1/styles.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="../MathType/mathquill-0.10.1/mathquill.js"></script>
+        <script src="../MathType/mathquill-0.10.1/CursorControl.js"></script>
+    </head>
+    <body>
+        <math-field id="latex-math-field" class="math-content">Begin\ Typing\ Here</math-field>
+        <script>
+            const MQ = MathQuill.getInterface(2);
+            const mathContentEl = $("#latex-math-field");
+            const mathField = MQ.MathField(mathContentEl[0], { spaceBehavesLikeTab: false, autoCommands: "pi theta sqrt sum int to Delta sigma null infinity lim Re Im linebreak oint binom", autoOperatorNames: "sin cos tan sec csc cot arcsin arccos arctan arccsc arcsec arccot sinh cosh tanh arcsinh arccosh arctanh log ln cis exp erf" });
+        </script>
+    </body>
+</html>
