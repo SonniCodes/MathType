@@ -1,0 +1,915 @@
+/*
+ * MathQuill v0.10.1, by Han, Jeanine, and Mary
+ * http://mathquill.com | maintainers@mathquill.com
+ *
+ * This Source Code Form is subject to the terms of the
+ * Mozilla Public License, v. 2.0. If a copy of the MPL
+ * was not distributed with this file, You can obtain
+ * one at http://mozilla.org/MPL/2.0/.
+ */
+
+
+/*
+@font-face {
+  font-family: Symbola;
+  src: url(fonts/Symbola.eot);
+  src: local("Symbola Regular"), local("Symbola"), url(fonts/Symbola.woff2) format("woff2"), url(fonts/Symbola.woff) format("woff"), url(fonts/Symbola.ttf) format("truetype"), url(fonts/Symbola.svg#Symbola) format("svg");
+}*/
+
+@import url('https://raw.githubusercontent.com/david-zhang123/KaTeX/main/import_KaTeX.css');
+@import url('https://david-zhang123.github.io/_Web_/Fonts/LatinModern.css');
+
+.mq-editable-field {
+    display: -moz-inline-box;
+    display: inline-block;
+}
+
+.mq-editable-field .mq-cursor {
+    border-left: 1px solid black;
+    margin-left: -1px;
+    position: relative;
+    z-index: 1;
+    padding: 0;
+    display: -moz-inline-box;
+    display: inline-block;
+}
+
+.mq-editable-field .mq-cursor.mq-blink {
+    visibility: hidden;
+}
+
+/* .mq-editable-field,
+.mq-math-mode .mq-editable-field {
+  border: 1px solid gray;
+}
+
+.mq-editable-field.mq-focused,
+.mq-math-mode .mq-editable-field.mq-focused {
+  -webkit-box-shadow: #8bd 0 0 1px 2px, inset #6ae 0 0 2px 0;
+  -moz-box-shadow: #8bd 0 0 1px 2px, inset #6ae 0 0 2px 0;
+  box-shadow: #8bd 0 0 1px 2px, inset #6ae 0 0 2px 0;
+  border-color: #709AC0;
+  border-radius: 1px;
+} */
+
+.mq-math-mode .mq-editable-field {
+    margin: 1px;
+}
+
+.mq-editable-field .mq-latex-command-input {
+    color: inherit;
+    font-family: "Courier New", monospace;
+    border: 1px solid gray;
+    padding-right: 1px;
+    margin-right: 1px;
+    margin-left: 2px;
+}
+
+.mq-editable-field .mq-latex-command-input.mq-empty {
+    background: transparent;
+}
+
+.mq-editable-field .mq-latex-command-input.mq-hasCursor {
+    border-color: ActiveBorder;
+}
+
+.mq-editable-field.mq-empty:after,
+.mq-editable-field.mq-text-mode:after,
+.mq-math-mode .mq-empty:after {
+    visibility: hidden;
+    content: 'c';
+    font-size: 0;
+}
+
+.mq-res .mq-empty:after {
+    visibility: hidden !important;
+    content: 'a';
+    font-size: 0 !important;
+}
+
+.mq-editable-field .mq-cursor:only-child:after,
+.mq-editable-field .mq-textarea+.mq-cursor:last-child:after
+
+/*, .mq-from .mq-empty:after, .mq-to .mq-empty:after*/
+    {
+    visibility: hidden;
+    content: '';
+    font-size: 0;
+}
+
+.mq-editable-field .mq-text-mode .mq-cursor:only-child:after {
+    content: '';
+    font-size: 0;
+}
+
+.mq-editable-field.mq-text-mode {
+    overflow-x: auto;
+    /* overflow-y: hidden; */
+}
+
+.mq-math-mode {
+    font-variant: normal;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 115%;
+    line-height: 1;
+    display: -moz-inline-box;
+    display: inline-block;
+}
+
+.mq-math-mode .mq-non-leaf,
+.mq-math-mode .mq-scaled {
+    display: -moz-inline-box;
+    display: inline-block;
+}
+
+.mq-math-mode var,
+.mq-math-mode .mq-text-mode,
+.mq-math-mode .mq-nonSymbola {
+    font-family: 'KaTeX_Main';
+    line-height: .9;
+    margin-right: 1px;
+    margin-left: -1px;
+}
+
+.mq-nonSymbola {
+    font-family: "LM" !important;
+}
+
+.mq-pi {
+    font-style: italic !important;
+}
+
+.mq-math-mode * {
+    font-size: inherit;
+    line-height: inherit;
+    margin: 0;
+    padding: 0;
+    border-color: black;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+/* .mq-math-mode .mq-empty {
+    background: #ccc;
+} */
+
+.mq-math-mode .mq-empty.mq-root-block {
+    background: transparent;
+}
+
+.mq-math-mode.mq-empty {
+    background: transparent;
+}
+
+.mq-math-mode .mq-text-mode {
+    display: inline-block;
+    white-space: pre;
+}
+
+.mq-math-mode .mq-text-mode.mq-hasCursor {
+    box-shadow: inset darkgray 0 .1em .2em;
+    padding: 0 .1em;
+    margin: 0 -0.1em;
+    min-width: 1ex;
+}
+
+.mq-math-mode .mq-font {
+    font: "KaTeX_Math";
+}
+
+.mq-math-mode .mq-font * {
+    font-family: inherit;
+    font-style: inherit;
+}
+
+.mq-math-mode b,
+.mq-math-mode b.mq-font {
+    font-weight: bolder;
+}
+
+.mq-math-mode var,
+.mq-math-mode i,
+.mq-math-mode i.mq-font {
+    font-style: italic;
+}
+
+.mq-math-mode var.mq-f {
+    margin-right: 0.2em;
+    margin-left: 0.1em;
+}
+
+.mq-math-mode .mq-roman var.mq-f {
+    margin: 0;
+}
+
+/* 
+.mq-math-mode big {
+  font-size: 200%;
+} */
+
+
+.mq-math-mode .mq-int>.mq-supsub {
+    font-size: 80%;
+    vertical-align: -0.8em;
+    height: 0em;
+}
+
+.mq-math-mode .mq-int>.mq-supsub>.mq-sup>.mq-sup-inner {
+    vertical-align: 2em;
+    margin-left: 0.4em;
+}
+
+.mq-math-mode .mq-eval>.mq-supsub>.mq-sup>.mq-sup-eval-inner {
+    vertical-align: 2.3em;
+    margin-left: 0.4em;
+}
+
+.mq-math-mode .mq-eval>.mq-supsub>.mq-sub-eval {
+    margin-left: 0.4em !important;
+}
+
+.mq-math-mode .mq-int>.mq-supsub>.mq-sub {
+    margin-left: -0.35em;
+}
+
+.mq-int {
+    vertical-align: -1.1em !important;
+    padding: 0.1em !important;
+    margin-right: -1px !important;
+}
+
+.mq-eval {
+    vertical-align: -1.1em !important;
+    margin-left: -3px !important;
+}
+
+.mq-math-mode .mq-roman {
+    font-style: normal;
+}
+
+.mq-math-mode .mq-sans-serif {
+    font-family: 'KaTeX_Math';
+}
+
+.mq-math-mode .mq-monospace {
+    font-family: monospace, Symbola, serif;
+}
+
+.mq-math-mode .mq-overline {
+    border-top: 1px solid black;
+    margin-top: 1px;
+}
+
+.mq-math-mode .mq-underline {
+    border-bottom: 1px solid black;
+    margin-bottom: 1px;
+}
+
+.mq-math-mode .mq-binary-operator {
+    font-family: "LM";
+    padding: 0 0.2em;
+    display: -moz-inline-box;
+    display: inline-block;
+}
+
+.mq-math-mode .mq-supsub {
+    text-align: left;
+    font-size: 0.7em;
+    /* margin-left: 2px; */
+    margin-right: -1px;
+    vertical-align: -0.25em;
+}
+
+.mq-math-mode .mq-supsub.mq-sup-only {
+    vertical-align: .6em;
+}
+
+.mq-math-mode .mq-supsub.mq-sup-only .mq-sup {
+    display: inline-block;
+    vertical-align: text-bottom;
+}
+
+.mq-math-mode .mq-supsub .mq-sup {
+    display: block;
+}
+
+.mq-sup .mq-sqrt-prefix, .mq-sub .mq-sqrt-prefix {
+    height: 80%;
+}
+
+
+.mq-math-mode .mq-supsub .mq-sub {
+    display: block;
+    float: left;
+}
+
+.mq-math-mode .mq-supsub .mq-binary-operator {
+    padding: 0 .1em;
+}
+
+.mq-math-mode .mq-supsub .mq-fraction {
+    font-size: 0.7em;
+}
+
+.mq-math-mode sup.mq-nthroot {
+    font-size: 80%;
+    vertical-align: 0.8em;
+    margin-right: -0.6em;
+    margin-left: .2em;
+    min-width: .5em;
+}
+
+.mq-math-mode .mq-paren {
+    font-family: "KaTeX_Main";
+    position: relative;
+    margin-bottom: .1em;
+    padding: 1px;
+    vertical-align: top;
+    -webkit-transform-origin: center 0.2em;
+    -moz-transform-origin: center 0.2em;
+    -ms-transform-origin: center 0.2em;
+    -o-transform-origin: center 0.2em;
+    transform-origin: center 0.2em;
+}
+
+/*
+.mq-math-mode .mq-paren {
+  padding-left: 2px;
+  margin-left: -1px;
+  vertical-align: baseline !important;
+  height: 100%;
+    -webkit-transform-origin: center;
+  -moz-transform-origin: center;
+  -ms-transform-origin: center;
+  -o-transform-origin: center;
+  transform-origin: center;
+}
+*/
+
+.mq-math-mode .mq-paren.mq-ghost {
+    color: silver;
+    /* color: black; */
+}
+
+.mq-math-mode .mq-paren+span {
+    margin-top: .1em;
+    margin-bottom: .1em;
+}
+
+.mq-math-mode .mq-array {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.mq-binom {
+    border: none !important;
+}
+
+.mq-math-mode .mq-array>span {
+    display: block;
+}
+
+.mq-math-mode .mq-operator-name {
+    font-family: 'KaTeX_Main';
+    line-height: .9;
+    font-style: normal;
+}
+
+.mq-math-mode var.mq-operator-name.mq-first {
+    padding-left: .2em;
+}
+
+.mq-math-mode var.mq-operator-name.mq-last,
+.mq-math-mode .mq-supsub.mq-after-operator-name {
+    padding-right: .2em;
+}
+
+.mq-math-mode .mq-fraction {
+    font-size: 90%;
+    text-align: center;
+    vertical-align: -0.4em;
+    margin: 0 .2em;
+}
+
+.mq-math-mode .mq-fraction,
+.mq-math-mode .mq-large-operator,
+.mq-math-mode x:-moz-any-link {
+
+    display: -moz-groupbox;
+}
+
+.mq-math-mode .mq-fraction,
+.mq-math-mode .mq-large-operator,
+.mq-math-mode x:-moz-any-link,
+.mq-math-mode x:default {
+    display: inline-block;
+}
+
+
+.mq-math-mode .mq-numerator,
+.mq-math-mode .mq-denominator,
+.mq-math-mode .mq-dot-recurring {
+    display: block;
+}
+
+
+.mq-math-mode .mq-numerator {
+    padding: 0 0.1em;
+}
+
+.mq-numerator .mq-sqrt-prefix {
+    transform: scale(1, 0.2);
+
+}
+
+
+/* .mq-numerator .mq-sqrt-prefix, .mq-denominator .mq-sqrt-prefix {
+  width: 13px;
+  position: relative;
+  top: 1px !important;
+  right: 4px !important;
+}
+
+.mq-numerator .mq-numerator .mq-sqrt-prefix,
+.mq-denominator .mq-denominator .mq-sqrt-prefix,
+.mq-numerator .mq-denominator .mq-sqrt-prefix,
+.mq-denominator .mq-numerator .mq-sqrt-prefix {
+  width: 13px;
+  position: relative;
+  top: 1px !important;
+  right: 4px !important;
+} */
+
+
+.mq-math-mode .mq-denominator {
+    border-top: 1px solid;
+    float: right;
+    width: 100%;
+}
+
+.mq-math-mode .mq-dot-recurring {
+    text-align: center;
+    height: 0.3em;
+}
+
+.mq-math-mode .mq-sqrt-prefix {
+    width: 13px;
+    position: relative;
+    top: 0.1em;
+    left: 1px;
+    margin-bottom: -5px;
+    vertical-align: top;
+    -webkit-transform-origin: top;
+    -moz-transform-origin: top;
+    -ms-transform-origin: top;
+    -o-transform-origin: top;
+    transform-origin: top;
+}
+
+.mq-math-mode .mq-sqrt-stem {
+    border-top: 1px solid;
+    margin-top: 0.1em;
+    padding: 0 .1em;
+    margin-right: .1em;
+}
+
+
+.mq-math-mode .mq-diacritic-above {
+    display: block;
+    text-align: center;
+    line-height: .4em;
+}
+
+.mq-math-mode .mq-diacritic-stem {
+    display: block;
+    text-align: center;
+    position: relative;
+    right: 2px;
+}
+
+.mq-math-mode .mq-hat-prefix {
+    display: block;
+    text-align: center;
+    line-height: .95em;
+    margin-bottom: -0.7em;
+    transform: scaleX(1.5);
+    -moz-transform: scaleX(1.5);
+    -o-transform: scaleX(1.5);
+    -webkit-transform: scaleX(1.5);
+}
+
+.mq-math-mode .mq-hat-stem {
+    display: block;
+}
+
+.mq-math-mode .mq-large-operator {
+    vertical-align: -0.45em;
+    margin: 0 0.2em;
+    text-align: center;
+}
+
+.mq-math-mode .mq-large-operator .mq-from,
+.mq-math-mode .mq-large-operator big,
+.mq-math-mode .mq-large-operator .mq-to {
+    display: block;
+}
+
+.mq-math-mode .mq-large-operator .mq-from,
+.mq-math-mode .mq-large-operator .mq-to {
+    font-size: 80%
+}
+
+.mq-math-mode .mq-large-operator .mq-from {
+    float: right;
+    /* take out of normal flow to manipulate baseline */
+    width: 100%;
+}
+
+.mq-large-operator big {
+    position: relative;
+    top: 1px;
+}
+
+.mq-int-bounds {
+    position: relative;
+    bottom: 12px;
+    left: -3px;
+}
+
+.mq-eval-bounds {
+    position: relative;
+    bottom: 8px;
+    left: -3px;
+}
+
+.mq-prime {
+    position: relative;
+    bottom: 0.5em;
+    font-size: 0.7em;
+}
+
+.mq-math-mode,
+.mq-math-mode .mq-editable-field {
+    cursor: text;
+    font-family: "KaTeX_Main";
+}
+
+.mq-math-mode .mq-overarrow {
+    border-top: 1px solid black;
+    margin-top: 1px;
+    padding-top: 0.2em;
+}
+
+.mq-math-mode .mq-overarrow:before {
+    display: block;
+    position: relative;
+    top: -0.34em;
+    font-size: 0.5em;
+    line-height: 0em;
+    content: '\27A4';
+    text-align: right;
+}
+
+.mq-math-mode .mq-overarrow.mq-arrow-left:before {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
+.mq-math-mode .mq-matrix {
+    position: relative;
+    vertical-align: middle;
+    margin-left: 0.1em;
+    margin-right: 0.1em;
+}
+
+.mq-math-mode .mq-bmatrix table, .mq-math-mode .mq-amatrix table {
+    width: auto;
+    border: 1px solid black;
+    border-radius: 1px;
+    border-collapse: separate;
+    margin: auto !important;
+}
+
+.mq-math-mode .mq-bmatrix span, .mq-math-mode .mq-amatrix span {
+
+    margin: auto !important;
+}
+
+.mq-math-mode .mq-matrix table.mq-rows-1 {
+    vertical-align: middle;
+    margin-bottom: 1px;
+}
+
+.mq-amatrix tr>td:nth-last-child(1) {
+    border-left: 1px solid black;
+    padding-left: 10px;
+}
+
+.mq-amatrix tr>td:nth-last-child(2) {
+    padding-right: 10px;
+}
+
+.mq-math-mode .mq-matrix td {
+    border: none;
+    width: auto;
+    /* defensive resets */
+    padding: 0.1em 0.3em;
+    vertical-align: baseline;
+}
+
+.mq-math-mode .mq-selection,
+.mq-editable-field .mq-selection,
+.mq-math-mode .mq-selection .mq-non-leaf,
+.mq-editable-field .mq-selection .mq-non-leaf,
+.mq-math-mode .mq-selection .mq-scaled,
+.mq-editable-field .mq-selection .mq-scaled {
+    background: #B4D5FE !important;
+    /* background: Highlight !important;
+  color: HighlightText;
+  border-color: HighlightText; */
+}
+
+.mq-math-mode .mq-selection .mq-matrixed,
+.mq-editable-field .mq-selection .mq-matrixed,
+.mq-selection .mq-bmatrix .mq-matrix-hide-lower,
+.mq-selection .mq-bmatrix .mq-matrix-hide-upper,
+.mq-selection .mq-amatrix .mq-matrix-hide-lower,
+.mq-selection .mq-amatrix .mq-matrix-hide-upper {
+    background: #B4D5FE !important;
+}
+
+.mq-math-mode .mq-selection .mq-matrixed-container,
+.mq-editable-field .mq-selection .mq-matrixed-container {
+    filter: progid:DXImageTransform.Microsoft.Chroma(color='#3399FF') !important;
+}
+
+.mq-math-mode .mq-selection.mq-blur,
+.mq-editable-field .mq-selection.mq-blur,
+.mq-math-mode .mq-selection.mq-blur .mq-non-leaf,
+.mq-editable-field .mq-selection.mq-blur .mq-non-leaf,
+.mq-math-mode .mq-selection.mq-blur .mq-scaled,
+.mq-editable-field .mq-selection.mq-blur .mq-scaled,
+.mq-math-mode .mq-selection.mq-blur .mq-matrixed,
+.mq-editable-field .mq-selection.mq-blur .mq-matrixed,
+.mq-selection.mq-blur .mq-bmatrix .mq-matrix-hide-lower,
+.mq-selection.mq-blur .mq-bmatrix .mq-matrix-hide-upper,
+.mq-selection.mq-blur .mq-amatrix .mq-matrix-hide-lower,
+.mq-selection.mq-blur .mq-amatrix .mq-matrix-hide-upper {
+    background: #d4d4d4 !important;
+    color: black;
+    border-color: black;
+}
+
+.mq-math-mode .mq-selection.mq-blur .mq-matrixed-container,
+.mq-editable-field .mq-selection.mq-blur .mq-matrixed-container {
+    filter: progid:DXImageTransform.Microsoft.Chroma(color='#D4D4D4') !important;
+}
+
+.mq-editable-field .mq-textarea,
+.mq-math-mode .mq-textarea {
+    position: relative;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    user-select: text;
+}
+
+.mq-editable-field .mq-textarea *,
+.mq-math-mode .mq-textarea *,
+.mq-editable-field .mq-selectable,
+.mq-math-mode .mq-selectable {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    user-select: text;
+    position: absolute;
+    clip: rect(1em 1em 1em 1em);
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    -o-transform: scale(0);
+    transform: scale(0);
+    resize: none;
+    width: 1px;
+    height: 1px;
+    box-sizing: content-box;
+}
+
+.mq-math-mode .mq-matrixed {
+    background: white;
+    display: -moz-inline-box;
+    display: inline-block;
+}
+
+.mq-math-mode .mq-matrixed-container {
+    filter: progid:DXImageTransform.Microsoft.Chroma(color='white');
+    margin-top: -0.1em;
+}
+
+.mq-limit {
+    font-family: "KaTeX_Main";
+    margin-top: -7px !important;
+    position: relative;
+}
+
+.mq-limit div {
+    font-size: 12px;
+    margin-top: -2px;
+}
+
+#latex-math-field {
+    width: 100vw;
+    text-align: center;
+    overflow: visible !important;
+}
+
+.math-content {
+    display: block;
+    border: 0;
+    background-color: rgba(0, 0, 0, 0);
+    text-align: center;
+    overflow: visible !important;
+    width: 100vw
+}
+
+.mq-root-block,
+.mq-math-mode .mq-root-block {
+    display: -moz-inline-box;
+    display: inline-block;
+    width: 100%;
+    padding: 2px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    white-space: nowrap;
+    /* overflow: hidden; */
+    vertical-align: middle;
+}
+
+.mq-bmatrix .mq-matrix-hide-lower, .mq-amatrix .mq-matrix-hide-lower {
+    height: 7px;
+    position: relative;
+    background-color: white;
+    bottom: 5px;
+    margin: 0 4px;
+    margin-bottom: -6px;
+}
+
+.mq-bmatrix .mq-matrix-hide-upper, .mq-amatrix .mq-matrix-hide-upper {
+    height: 1px;
+    position: relative;
+    background-color: white;
+    top: 1px;
+    margin: 0 4px;
+    margin-top: -5px;
+}
+
+.mq-gather {
+    border: none !important;
+}
+
+.mq-array {
+    border: 1px solid black;
+}
+
+.mq-align {
+    border: none !important;
+}
+
+.mq-align tr>td:nth-child(even) {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    text-align: left;
+}
+
+.mq-align tr>td:nth-child(odd) {
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+    text-align: right;
+}
+
+.mq-matrix {
+    align-content: center !important;
+}
+
+.mq-matrix>.mq-paren {
+    position: absolute;
+    top: 7%;
+}
+
+.mq-cases>.mq-paren {
+    top: 11.5% !important;
+}
+
+.mq-matrix table {
+    margin-left: 10px;
+    border-spacing: 0 !important;
+    border-collapse: collapse !important;
+
+}
+
+.mq-mathcal var {
+    font-family: 'KaTeX_Caligraphic';
+    font-style: normal;
+}
+
+.mq-mathscr var {
+    font-family: 'KaTeX_Script';
+    font-style: normal;
+    margin-right: 5px;
+}
+
+/* DELETE LATER */
+.mq-pseudo-mathbb {
+    font-weight: bold;
+}
+
+.mq-mathbb var {
+    font-family: 'KaTeX_AMS';
+    font-style: normal;
+}
+
+.mq-mathfrak var {
+    font-family: 'KaTeX_Fraktur' !important;
+    font-style: normal;
+}
+
+.SV-Solve {
+    border: 1px solid black;
+    width: auto !important;
+    border-radius: 1px;
+    margin: 0.1em;
+
+}
+
+.SV-Solve-hide-upper, .SV-Solve-hide-lower {
+    transform: scale(1) !important;
+}
+
+.SV-Solve-hide-upper {
+    height: 4px;
+    position: relative;
+    background-color: white;
+    bottom: 3px;
+    margin: 0 2px;
+}
+
+.SV-Solve-hide-lower {
+    height: 4px;
+    position: relative;
+    background-color: white;
+    top: 4px;
+    margin: 0 2px;
+}
+
+.SV-Solve-inner, .SV-Calc-inner, .SV-Graph-inner, .SV-Simplify-inner {
+    padding: 0 0.5em;
+}
+
+.SV-Solve-Button, .SV-Calc-Button, .SV-Graph-Button {
+    border: 1px solid black;
+    border-radius: 2px;
+    font-size: 0.5em;
+    padding: 0.1em;
+    margin-right: 0.5em;
+}
+
+
+.SV-Graph-Div {
+    width: 100%;
+    text-align: center;
+    height: 300px !important;
+    padding-top: -100px !important;
+    overflow: hidden !important;
+    padding-bottom: 40px;
+}
+
+.SV-Graph-Div>div {
+    transform: scale(0.7) !important;
+    padding-top: -100px !important;
+    margin-top: -100px !important;
+    overflow: hidden !important;
+}
+
+.mpld3-toolbar {
+    position: relative !important;
+    bottom: 100px !important
+}
+
+.tick>line {
+    color: rgba(0, 0, 0, 0.2);
+    z-index: -10 !important;
+}
+
+.SV-garbageBin {
+    cursor: pointer;
+    width: 2em;
+    position: relative;
+    top: 30px;
+    margin-left: 49.3%;
+}
