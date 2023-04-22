@@ -213,8 +213,18 @@ class CursorManager {
         document.addEventListener("keydown", (event) => {
             const noModifier = !(event.ctrlKey || event.shiftKey || event.altKey) && !(event.ctrlKey && event.shiftKey && event.altKey);
             var cursor = document.getElementById("mq-cursor-focus");
+            var inputVal = "";
             if (event.ctrlKey && event.key === "s") {
                 event.preventDefault();
+                for (let i = 0; i < idList.length; i++) {
+                    var mathfield = this.convertMathObject("latex-math-field-" + idList[i]);
+                    inputVal += mathfield.latex() + "¨";
+                }
+                var searchParams = new URLSearchParams(window.location.search);
+                console.log(inputVal);
+                searchParams.set("SaveVal", inputVal);
+                var newUrl = window.location.origin + window.location.pathname + "?" + searchParams.toString();
+                window.history.replaceState(null, null, newUrl);
             }
             if (noModifier) {
                 switch (event.key) {
@@ -253,5 +263,19 @@ class CursorManager {
                 }
             }
         });
+        try {
+            var searchParams = new URLSearchParams(window.location.search);
+            var saveVal = searchParams.get("SaveVal").slice(0, -1).split("¨");
+            this.newNode();
+            this.convertMathObject("latex-math-field-" + idList[0]).latex(saveVal[0]);
+            for (let i = 1; i < saveVal.length; i++) {
+                setTimeout(() => {
+                    this.newNode();
+                    this.convertMathObject("latex-math-field-" + idList[i]).latex(saveVal[i]);
+                });
+            }
+        } catch {
+            console.log("No search params found");
+        }
     }
 }

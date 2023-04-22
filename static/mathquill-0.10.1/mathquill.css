@@ -223,7 +223,7 @@
 }
 
 .mq-math-mode .mq-eval>.mq-supsub>.mq-sup>.mq-sup-eval-inner {
-    vertical-align: 1.9em;
+    vertical-align: 1.8em;
     margin-left: 0.4em;
 }
 
@@ -237,7 +237,8 @@
 
 .mq-int {
     vertical-align: -1.1em !important;
-    padding: 0.1em !important;
+    padding-top: 0.4em !important;
+    margin-left: -0.5em;
     margin-right: -1px !important;
 }
 
@@ -295,11 +296,6 @@
 .mq-math-mode .mq-supsub .mq-sup {
     display: block;
 }
-
-.mq-sup .mq-sqrt-prefix, .mq-sub .mq-sqrt-prefix {
-    height: 80%;
-}
-
 
 .mq-math-mode .mq-supsub .mq-sub {
     display: block;
@@ -420,10 +416,6 @@
     padding: 0 0.1em;
 }
 
-.mq-numerator .mq-sqrt-prefix {
-    transform: scale(1, 0.2);
-
-}
 
 
 /* .mq-numerator .mq-sqrt-prefix, .mq-denominator .mq-sqrt-prefix {
@@ -456,11 +448,8 @@
 }
 
 .mq-math-mode .mq-sqrt-prefix {
-    width: 13px;
     position: relative;
-    top: 0.1em;
-    left: 1px;
-    margin-bottom: -5px;
+    font-family: 'KaTeX_Main';
     vertical-align: top;
     -webkit-transform-origin: top;
     -moz-transform-origin: top;

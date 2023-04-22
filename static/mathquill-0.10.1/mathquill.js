@@ -4306,8 +4306,12 @@ case '!':
     }
 
     if (transformPropName) {
-        scale = function (jQ, x, y) {
+        scale = function (jQ, x, y, z = 0) {
             jQ.css(transformPropName, "scale(" + x + "," + 0.87 * y + ")");
+            jQ.css("right", 8 * z);
+            if (z > 0) {
+                jQ.css("top", 2 - 0.2 * y);
+            }
         };
     } else if ("filter" in div_style) {
         //IE 6, 7, & 8 fallback, see https://github.com/laughinghan/mathquill/wiki/Transforms
@@ -4821,8 +4825,8 @@ case '!':
             P(MathCommand, function (_, super_) {
                 _.ctrlSeq = "\\sqrt";
                 //<svg viewBox="0 0 55 55" height="1.1em" width="1.1em" style=""> <path d="M -0.006 32.998 L 12.119 26.998 L 21.646 46.998 L 22.512 46.998 L 51.958 -0.002 L 55.422 -0.002 L 22.512 53.998 L 20.826 54.093 L 9.971 30.047 L -0.006 32.998" class="" style=""></path> </svg>
-                // <svg preserveAspectRatio="none" viewBox="0 0 32 54" class=""><path d="M0 33 L7 27 L12.5 47 L13 47 L30 0 L32 0 L13 54 L11 54 L4.5 31 L0 33"></path></svg>
-                const sqrt_sign = `<svg preserveAspectRatio="none" viewBox="0 0 32 54" class="mq-sqrt-sign"><path d="M0 33 L7 27 L12.5 47 L13 47 L30 0 L32 0 L13 54 L11 54 L4.5 31 L0 33"></path></svg>`;
+                // <svg preserveAspectRatio="none" viewBox="0 0 32 54" class="mq-sqrt-sign"><path d="M0 33 L7 27 L12.5 47 L13 47 L30 0 L32 0 L13 54 L11 54 L4.5 31 L0 33"></path></svg>
+                const sqrt_sign = `&radic;`;
                 _.htmlTemplate = '<span class="mq-non-leaf">' + '<span class="mq-scaled mq-sqrt-prefix">' + sqrt_sign + "</span>" + '<span class="mq-non-leaf mq-sqrt-stem">&0</span>' + "</span>";
                 _.textTemplate = ["sqrt(", ")"];
                 _.parser = function () {
@@ -4840,7 +4844,7 @@ case '!':
                 };
                 _.reflow = function () {
                     var block = this.ends[R].jQ;
-                    scale(block.prev(), 1, (0.87 * block.innerHeight()) / +block.css("fontSize").slice(0, -2));
+                    scale(block.prev(), 1 + (0.1 * block.innerHeight()) / +block.css("fontSize").slice(0, -2), (1.1 * block.innerHeight()) / +block.css("fontSize").slice(0, -2), (0.1 * block.innerHeight()) / +block.css("fontSize").slice(0, -2));
                 };
             }));
 
