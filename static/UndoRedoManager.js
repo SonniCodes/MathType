@@ -271,7 +271,9 @@ class CursorManager {
             for (let i = 1; i < saveVal.length; i++) {
                 setTimeout(() => {
                     this.newNode();
-                    this.convertMathObject("latex-math-field-" + idList[i]).latex(saveVal[i]);
+                    setTimeout(() => {
+                        this.convertMathObject("latex-math-field-" + idList[i]).latex(saveVal[i]);
+                    });
                 });
             }
         } catch {
