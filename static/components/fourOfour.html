@@ -1,0 +1,27 @@
+<div class="fourOfour">
+    <h1>This Page Is Still Under Construction</h1>
+    Check back later!
+    <br />
+    <math-field id="latex-math-field-0"></math-field>
+</div>
+<style>
+    @import url("https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.css");
+    .fourOfour {
+        margin-top: 80px;
+        text-align: center;
+        font-family: "KaTeX_main";
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        const MQ = MathQuill.getInterface(2);
+        const myArray = ["\\frac{1}{0}", "\\frac{\\infty }{\\infty }", "\\infty -\\infty ", "\\lim_{x\\to 0}x^{\\ x}", "1^{\\infty }"];
+        const mathContentEl = $("#latex-math-field-0");
+        mathContentEl.text(myArray[Math.floor(Math.random() * myArray.length)]);
+        let mathField = MQ.StaticMath(mathContentEl[0]);
+        mathContentEl.css({
+            "transform-origin": "50% 0",
+            transform: "scale(" + 3 + ")",
+        });
+    });
+</script>

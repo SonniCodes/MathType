@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="static/scripts/include.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.css" integrity="sha384-ko6T2DjISesD0S+wOIeHKMyKsHvWpdQ1s/aiaQMbL+TIXx3jg6uyf9hlv3WWfwYv" crossorigin="anonymous" />
+        <link rel="stylesheet" href="static/scripts/mathquill-0.10.1/mathquill.css" />
+        <link rel="stylesheet" href="static/styles/styles.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="static/scripts/mathquill-0.10.1/mathquill.js"></script>
+        <script src="static/scripts/index.js"></script>
+        <script src="static/scripts/UndoRedoManager.js"></script>
+        <script src="https://apis.google.com/js/api.js"></script>
+        <script src="static/scripts/Oauth.js"></script>
+    </head>
+
+    <body>
+        <include-html src="static/components/navbar.html"></include-html>
+        <span id="scaled-view">
+            <div class="page-view">
+                <div class="spacer print-hide"></div>
+                <math-field id="latex-math-field-0" class="math-content"></math-field>
+            </div>
+            <div class="spacer print-hide"></div>
+        </span>
+    </body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="static/scripts/include.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.css" integrity="sha384-ko6T2DjISesD0S+wOIeHKMyKsHvWpdQ1s/aiaQMbL+TIXx3jg6uyf9hlv3WWfwYv" crossorigin="anonymous" />
+        <link rel="stylesheet" href="static/scripts/mathquill-0.10.1/mathquill.css" />
+        <script src="static/scripts/mathquill-0.10.1/mathquill.js"></script>
+        <script src="static/scripts/docs.js"></script>
+        <link rel="stylesheet" href="static/styles/docs.css" />
+    </head>
+    <body>
+        <nav class="toc">
+            <ul>
+                <li><a href="#intro">Intro</a></li>
+                <li>
+                    <a href="#formula-and-formulate">Formula and Formulate</a>
+                </li>
+                <li>
+                    <a href="#using-formula">Using Formula</a>
+                    <ul>
+                        <li><a href="#formula-environments">Environments</a></li>
+                        <li><a href="#formula-matrices">Matrices</a></li>
+                        <li><a href="#nested-environments">Nested Environments</a></li>
+                        <li><a href="#large-op">Large Operators</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <svg class="toc-marker" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+                <path stroke="#444" stroke-width="3" fill="transparent" stroke-dasharray="0, 0, 0, 1000" stroke-linecap="round" stroke-linejoin="round" transform="translate(-0.5, -0.5)" />
+            </svg>
+        </nav>
+
+        <include-html src="static/components/navbar.html"></include-html>
+
+        <article class="contents">
+            <section id="intro">
+                <h2>Introduction: What is Aleph</h2>
+                <p>Welcome to Aleph, a LaTeX WYSIWYG editor based on Mathquill. Aleph is a powerful tool that allows users to easily create and edit LaTeX documents in real-time, without the need for any knowledge of LaTeX syntax.</p>
+                <p>Aleph provides a user-friendly interface that is intuitive and easy to use, allowing users to focus on their content rather than the technical aspects of LaTeX. With Aleph, you can create complex mathematical equations, tables, and diagrams with ease, and see the results in real-time as you work.</p>
+                <p>Aleph is built on top of Mathquill, a popular JavaScript library that provides a user-friendly interface for entering mathematical equations. By building on top of Mathquill, Aleph inherits many of its powerful features, such as support for LaTeX commands and symbols, as well as the ability to export LaTeX code.</p>
+                <p>Whether you're a seasoned LaTeX user or a beginner, Aleph is the perfect tool for creating high-quality documents quickly and easily. With its user-friendly interface and powerful features, Aleph is the future of LaTeX editing.</p>
+            </section>
+
+            <section>
+                <div id="formula-and-formulate">
+                    <h2>What is Formula and Formulate</h2>
+                    Formula and Formulate are subsets of the Aleph project. This section introduces you to core concepts on each tool and when to use each tool.
+                    <h3>Formula: The One-Minute TeX Editor</h3>
+                    <p>Formula is a subproject of Aleph that allows users to quickly create LaTeX documents without the need for technical expertise. Its user-friendly interface lets you jot down ideas, take notes, and create documents in real-time. Formula is fully developed and ready to use, making it an efficient tool for those who want to create LaTeX documents quickly and easily.</p>
+                    <h3>Formulate: Long Projects Made Fast</h3>
+                    <p>Formulate is a subproject of Aleph that is designed for longer, more complex LaTeX projects. Currently in development, it promises to offer a comprehensive set of features for creating tables, diagrams, and images with ease. Formulate will also provide advanced formatting options such as custom page layouts and styles. Stay tuned for updates on the development of Formulate!</p>
+                </div>
+            </section>
+
+            <section>
+                <div id="using-formula">
+                    <h2>Using Formula</h2>
+                    <p>To begin typing in Formula, simply click on the editor window and start typing. As Aleph is based on the Mathquill library, it uses a math-friendly syntax for inputting equations and symbols.</p>
+                    <p>For example, to type a fraction, type the numerator, followed by a forward slash <code>/</code>, and then the denominator. To add a superscript, use the caret <code>^</code> symbol, and for a subscript, use the underscore <code>_</code> symbol.</p>
+                    <p>You can also use LaTeX commands directly by typing the backslash <code>\</code> symbol followed by the command name. For example, typing <code>\sqrt</code> will create a square root symbol.</p>
+                    <p>Aleph also includes a toolbar with buttons for commonly used symbols, making it easy to add them to your document with a single click. And with real-time rendering, you can see the results of your typing immediately as you type, making it easy to create complex equations and formulas quickly and accurately.</p>
+                </div>
+                <div id="formula-environments">
+                    <h2>Enviornments</h2>
+                    <p>Formula also supports environments for creating LaTeX documents. To create an environment, simply type the backslash <code>\</code> symbol followed by the environment name in square brackets. The environments in Formula imitate their LaTeX counterparts.</p>
+                    <p>For instance, the <code>gather</code> environment allows you to write multi-line text in a centered format, while alignment environments, such as <code>align</code>, enable you to align equations along a chosen axis. By default, the keybinds to create an a newline is <kbd>enter</kbd> while <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>enter</kbd> creates a new column.</p>
+                    <ul>
+                        <li><code>\gather</code>: A multiline instance of math in one line. This environment is essential for Formulate multi-line math-content.</li>
+                        <math-field>\begin{gather}b+b\\=2b\end{gather}</math-field>
+                        <li>
+                            <code>\array</code>: Creates a gather with thin black border<br />
+                            this is an Aleph specific command. This will not work with LaTeX
+                        </li>
+                        <math-field>\begin{array}\text{Array}\ \ \end{array}</math-field>
+                        <li><code>\align</code>: Uses an invisible line to delimit where groups of text should be aligned.</li>
+                        <math-field>\begin{align}2x+6&=30\\2x&=24\\x&=12\end{align}</math-field>
+                    </ul>
+                </div>
+                <div id="formula-matrices">
+                    <h3>Matrices</h3>
+                    <p>Similar to environments, matrices are also supported by typing <code>\</code> and the corresponding matrix name. Unlike environments matrices use <kbd>ctrl</kbd>+<kbd>enter</kbd> to create a new column.</p>
+                    <p>Below is a list of supported matrix environments:</p>
+                    <ul>
+                        <li><code>\bmatrix</code>: Creates a matrix with square brackets <code>[ ]</code>.</li>
+                        <math-field>\begin{bmatrix}1&0\\0&1\end{bmatrix}</math-field>
+                        <li><code>\pmatrix</code>: Creates a matrix with parentheses <code>( )</code>.</li>
+                        <math-field>\begin{pmatrix}1&0\\0&1\end{pmatrix}</math-field>
+                        <li><code>\vmatrix</code>: Creates a matrix with vertical bars <code>| |</code>.</li>
+                        <math-field>\begin{vmatrix}1&0\\0&1\end{vmatrix}</math-field>
+                        <li><code>\Vmatrix</code>: Creates a matrix with double vertical bars <code>|| ||</code>.</li>
+                        <math-field>\begin{Vmatrix}1&0\\0&1\end{Vmatrix}</math-field>
+                        <li><code>\matrix</code>: Creates a matrix with no brackets or delimiters.</li>
+                        <math-field>\begin{matrix}1&0\\0&1\end{matrix}</math-field>
+                        <li><code>\amatrix</code>: Creates an augmented b-matrix. <br />Note that this is a custom command specific to Aleph. This will not work in LaTeX.</li>
+                        <math-field>\begin{amatrix}1&0&x_1\\0&1&x_2\end{amatrix}</math-field>
+                    </ul>
+                </div>
+
+                <div id="nested-environments">
+                    <h3>Nested Environments</h3>
+                    <p>While Formula supports a variety of LaTeX environments and matrices, it does not currently support nesting environments or matrices within one another. This means that you cannot have a matrix inside an environment or vice versa.</p>
+                    <p>However, this feature is planned for the future and may be added in a future update. In the meantime, you can still create complex documents using the supported environments and matrices, while keeping in mind the current limitation of not being able to nest them within one another.</p>
+                </div>
+
+                <div id="large-op">
+                    <h3>Large Operators</h3>
+                    <p>The following are a list on common large operators.</p>
+                    <ul>
+                        <li><code>\int</code>: Used to represent an integral.</li>
+                        <math-field>\int_b^a\sin \left(x\right)dx</math-field>
+                        <li><code>\oint</code>: Used to represent a contour integral.</li>
+                        <math-field>\oint_C\sin \left(x\right)dx</math-field>
+                        <li><code>\dashint</code>: Used to represent a Cauchy principal value integral.</li>
+                        <math-field>\dashint_{-\infty }^{\infty }\frac{\sin ^2\left(z\right)}{z^2}dz</math-field>
+                        <li><code>\sum</code>: Used to represent a summation.</li>
+                        <math-field>\sum_{\begin{gather}p:\ \text{prime}\\p\le n\end{gather}}^{}\frac{1}{p}</math-field>
+                        <li><code>\prod</code>: Used to represent a product.</li>
+                        <math-field>\prod_{n=1}^{\infty }\left(1-\frac{1}{4n^2}\right)</math-field>
+                        <li><code>\lim</code>: Used to represent a limit.</li>
+                        <math-field>\lim_{ x\to \infty }\frac{\cos \left(x\right)}{x}</math-field>
+                    </ul>
+                    <p>To use these large operators in Aleph, simply type the backslash <code>\</code> symbol followed by the operator name. For instance, to create an integral sign, type <code>\int</code>. Aleph will automatically format the operator to its corresponding LaTeX symbol, allowing you to create complex mathematical notation with ease.</p>
+                    <p>You can tab into the limits of these large operators by using the left and right arrow keys or the up and down arrow keys.</p>
+                </div>
+                <div id="complete-list">
+                    <h3>Complete List</h3>
+                    <p>To view a complete list of commands, please refer to MathQuill's heavy documentation on the topic or search for the LaTeX command for the symbol in question.</p>
+                </div>
+            </section>
+        </article>
+    </body>
+</html>

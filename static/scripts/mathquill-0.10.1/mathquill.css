@@ -712,7 +712,6 @@
 }
 
 #latex-math-field {
-    width: 100vw;
     text-align: center;
     overflow: visible !important;
 }
@@ -783,12 +782,12 @@
 }
 
 .mq-matrix {
+    position: relative;
     align-content: center !important;
 }
 
 .mq-matrix>.mq-paren {
-    position: absolute;
-    top: 7%;
+    padding-top: 3%;
 }
 
 .mq-cases>.mq-paren {
@@ -796,7 +795,6 @@
 }
 
 .mq-matrix table {
-    margin-left: 10px;
     border-spacing: 0 !important;
     border-collapse: collapse !important;
 
